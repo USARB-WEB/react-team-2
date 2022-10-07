@@ -2,15 +2,18 @@ import React from 'react';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { HomePage } from './pages/home';
-import { ContactsPage } from './pages/contacts';
-import { ProfilePage } from './pages/profile';
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
   RouterProvider,
   Route,
 } from "react-router-dom";
+
+import HomePage from './pages/home';
+import ContactsPage from './pages/contacts';
+import ProfilePage from './pages/profile';
+import ProductsPage from './pages/products';
+import ShoppingCartPage from './pages/cart';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +27,14 @@ const router = createBrowserRouter([
   {
     path: "/profile",
     element: <ProfilePage></ProfilePage>,
+  },
+  {
+    path: "/products",
+    element:<ProductsPage/>,
+  },
+  {
+    path: "/cart",
+    element: <ShoppingCartPage/>,
   }
 ]);
 
