@@ -1,11 +1,10 @@
-import { NavBar } from "../components/NavBar";
+import NavBar from "../components/NavBar";
 
-export default function ContactsPage(){
+export default function ContactsPage() {
     return (
         <>
-            <NavBar/>
+            <NavBar />
             <div>This is contacts page</div>
         </>
-        
     )
 }

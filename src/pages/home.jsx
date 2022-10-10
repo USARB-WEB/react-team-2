@@ -1,9 +1,9 @@
-import { NavBar } from "../components/NavBar";
+import NavBar from "../components/NavBar";
 
-export default function HomePage(){
+export default function HomePage() {
     return (
         <>
-            <NavBar/>
+            <NavBar />
             <div>This is home page</div>
         </>
     )
