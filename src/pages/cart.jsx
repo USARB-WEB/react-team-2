@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { NavBar } from "../components/NavBar";
 import useLocalStorage from "../hooks/useLocalStorage";
 
@@ -8,11 +7,6 @@ export default function ShoppingCartPage() {
   const removeFromCart = (productId, newState) => {
     setProducts(products.filter((product) => product.id !== productId));
   };
-  useEffect(() => {
-    setProducts((prevProduct) => {
-      return prevProduct;
-    });
-  }, [setProducts]);
 
   return (
     <>

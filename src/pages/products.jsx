@@ -15,10 +15,11 @@ export default function ProductsPage() {
     })
   );
 
-  const addProductToCart = (productId, newState) => {
+  const addProductToCart = (selectedProduct) => {
+    const newState = !selectedProduct.inCart ? true : false;
     setProducts(
       products.map((product) => {
-        if (product.id === productId) {
+        if (product.id === selectedProduct.id) {
           return {
             ...product,
             inCart: newState,
@@ -46,8 +47,7 @@ export default function ProductsPage() {
                 <span>{product.name}</span> |<strong>{product.price}</strong> |
                 <button
                   onClick={() => {
-                    const newState = !product.inCart ? true : false;
-                    addProductToCart(product.id, newState);
+                    addProductToCart(product);
                   }}
                 >
                   {!product.inCart ? "Add to cart" : "Remove from cart"}
