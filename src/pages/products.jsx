@@ -1,107 +1,61 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { NavBar } from "../components/NavBar";
-
-const allProducts = [
-    {
-        id: 1,
-        name: "Product 1",
-        price: 12.34,
-        inCart: false
-    },
-    {
-        id: 2,
-        name: "Product 2",
-        price: 11.22,
-        inCart: false
-    },
-    {
-        id: 3,
-        name: "Product 3",
-        price: 7.55,
-        inCart: false
-    },
-    {
-        id: 4,
-        name: "Product 4",
-        price: 7.55,
-        inCart: false
-    },
-    {
-        id: 5,
-        name: "Product 5",
-        price: 7.55,
-        inCart: false
-    }
-];
+import useLocalStorage from "../hooks/useLocalStorage";
+import { allProducts } from "../mock/products";
 
 export default function ProductsPage() {
+  const [cart, setCart] = useLocalStorage("products", []);
+  const [products, setProducts] = useState(
+    allProducts.map((product) => {
+      return {
+        ...product,
+        inCart: cart.find((cartProduct) => cartProduct.id === product.id) ? true : false,
+      };
+    })
+  );
 
-    const getFromLocalStorage = () => {
-        return JSON.parse(localStorage.getItem('products')) || [];
-    }
-
-    const [products, setProducts] = useState(allProducts.map(product => {
-        return {
+  const addProductToCart = (productId, newState) => {
+    setProducts(
+      products.map((product) => {
+        if (product.id === productId) {
+          return {
             ...product,
-            inCart: getFromLocalStorage().find(cartProduct => cartProduct.id === product.id) ? true : false
+            inCart: newState,
+          };
         }
-    }))
 
-    const changeCartState = (productId, newState) => {
-        setProducts(
-            products.map(product => {
-                if (product.id === productId) {
+        return product;
+      })
+    );
+  };
 
-                    return {
-                        ...product, inCart: newState
-                    };
-                } 
-                
-                return product;
-            })
-        )
-    }
+  useEffect(() => {
+    setCart(products.filter((product) => product.inCart));
+  }, [products]);
 
-    const addToCart = (productId) => {
-        changeCartState(productId, true);  
-    }
-
-    const removeFromCart = (productId) => {
-        changeCartState(productId, false);
-    }
-
-    
-
-    const saveToLocalStorage = () => {
-        localStorage.setItem('products', JSON.stringify(products.filter(product => product.inCart)))
-    }
-
-    
-    useEffect(() => {
-        saveToLocalStorage();
-    }, [products])
-
-
-
-    return (
-        <>
-            <NavBar />
-            <div>Products</div>
-            <div>
-                <ul>
-                    {
-                        products && products.map(product =>
-                            <li key={product.id}>
-                                <span>{product.name}</span> | 
-                                <strong>{product.price}</strong> | 
-                                {!product.inCart && <button onClick={() => { addToCart(product.id) }}>Add to cart</button>}
-                                {product.inCart && <button onClick={() => { removeFromCart(product.id) }}>Remove from cart</button>}
-                            </li>
-                        )
-                    }
-                </ul>
-            </div>
-        </>
-    )
+  return (
+    <>
+      <NavBar />
+      <div>Products</div>
+      <div>
+        <ul>
+          {products &&
+            products.map((product) => (
+              <li key={product.id}>
+                <span>{product.name}</span> |<strong>{product.price}</strong> |
+                <button
+                  onClick={() => {
+                    const newState = !product.inCart ? true : false;
+                    addProductToCart(product.id, newState);
+                  }}
+                >
+                  {!product.inCart ? "Add to cart" : "Remove from cart"}
+                </button>
+              </li>
+            ))}
+        </ul>
+      </div>
+    </>
+  );
 }
