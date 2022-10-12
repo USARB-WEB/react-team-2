@@ -1,18 +1,23 @@
 import EmptyList from "./EmptyList";
-import Item from "./Item";
 
 const ListItems = ({ items, removeProduct, addProduct }) => {
+  const Item = ({ id, name, inCart }) => {
+    return (
+      <li>
+        <span>{name}</span>
+        {inCart ? (
+          <button onClick={() => removeProduct(id)}>Remove from cart</button>
+        ) : (
+          <button onClick={() => addProduct(id)}>Add to cart</button>
+        )}
+      </li>
+    );
+  };
+
   return items.length ? (
     <ul>
       {items.map(({ name, id, inCart }) => (
-        <Item
-          key={id}
-          id={id}
-          inCart={inCart}
-          name={name}
-          removeProduct={removeProduct}
-          addProduct={addProduct}
-        />
+        <Item key={id} id={id} inCart={inCart} name={name} />
       ))}
     </ul>
   ) : (

@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import { LocalStorage, PRODUCTS } from "../helpers/localStorage";
-import { updateAndSaveCart } from "../helpers/cart";
+import { PRODUCTS } from "../utils/localStorage";
 import ListItems from "../components/list/ListItems";
-import products from "../database/products/list.json";
-import { getFilteredData } from "../helpers/filter";
+import { getFilteredData } from "../utils/filter";
+import useLocalStorage from "../hooks/useLocalStorage";
+import defaultProducts from "../database/products/list.json";
+import { getUpdatedProducts } from "../utils/updateProducts";
 
 const ShoppingCartPage = () => {
-  const [cartsProducts, setCartsProducts] = useState([]);
+  const [products, setProducts] = useLocalStorage(PRODUCTS, defaultProducts);
+  const [cartProducts, setCartProducts] = useState([]);
 
   useEffect(() => {
-    const localData = LocalStorage.get(PRODUCTS) || products;
+    updateCartProducts(products);
+  }, [products]);
 
-    updateCartsProducts(localData);
-  }, []);
-
-  const updateCartsProducts = (data) => {
-    const mainData = data || products;
+  const updateCartProducts = (products) => {
+    const mainData = products;
 
     const filterArguments = {
       data: mainData,
@@ -25,23 +25,22 @@ const ShoppingCartPage = () => {
 
     const filteredProducts = getFilteredData(filterArguments);
 
-    setCartsProducts(filteredProducts);
+    setCartProducts(filteredProducts);
   };
 
   const removeProductFromList = (id) => {
-    const updatedProducts = updateAndSaveCart(id, false);
+    const updatedProducts = getUpdatedProducts(id, false);
 
-    updateCartsProducts(updatedProducts);
+    updateCartProducts(updatedProducts);
+
+    setProducts(updatedProducts);
   };
 
   return (
     <>
       <h2>Cart</h2>
-      {cartsProducts && (
-        <ListItems
-          items={cartsProducts}
-          removeProduct={removeProductFromList}
-        />
+      {cartProducts && (
+        <ListItems items={cartProducts} removeProduct={removeProductFromList} />
       )}
     </>
   );

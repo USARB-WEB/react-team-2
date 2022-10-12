@@ -1,40 +1,36 @@
-import { useEffect, useState } from "react";
 import ListItems from "../components/list/ListItems";
-import { LocalStorage, PRODUCTS } from "../helpers/localStorage";
-import products from "../database/products/list.json";
-import { updateAndSaveCart } from "../helpers/cart";
+import { PRODUCTS } from "../utils/localStorage";
+import { getUpdatedProducts } from "../utils/updateProducts";
+import defaultProducts from "../database/products/list.json";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const ProductsPage = () => {
-	const [products, setProducts] = useState([]);
+  const [products, setProducts] = useLocalStorage(PRODUCTS, defaultProducts);
 
-	useEffect(() => {
-		const localData = LocalStorage.get(PRODUCTS) || products;
+  const removeProductFromList = (id) => {
+    const newProducts = getUpdatedProducts(id, false);
 
-		setProducts(localData);
-	}, []);
+    setProducts(newProducts);
+  };
 
-	const removeProductFromList = (id) => {
-		const newProducts = updateAndSaveCart(id, false);
-		setProducts(newProducts);
-	};
+  const addProductToCart = (id) => {
+    const newProducts = getUpdatedProducts(id, true);
 
-	const addProductToCart = (id) => {
-		const newProducts = updateAndSaveCart(id, true);
-		setProducts(newProducts);
-	};
+    setProducts(newProducts);
+  };
 
-	return (
-		<>
-			<h2>PRODUCTS</h2>
-			{products && (
-				<ListItems
-					items={products}
-					addProduct={addProductToCart}
-					removeProduct={removeProductFromList}
-				/>
-			)}
-		</>
-	);
+  return (
+    <>
+      <h2>PRODUCTS</h2>
+      {products && (
+        <ListItems
+          items={products}
+          addProduct={addProductToCart}
+          removeProduct={removeProductFromList}
+        />
+      )}
+    </>
+  );
 };
 
 export default ProductsPage;
