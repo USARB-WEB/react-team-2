@@ -2,20 +2,20 @@ import { useEffect, useState } from "react";
 import { LocalStorage, PRODUCTS } from "../helpers/localStorage";
 import { updateAndSaveCart } from "../helpers/cart";
 import ListItems from "../components/list/ListItems";
-import defaultData from "../data/data.json";
+import products from "../database/products/list.json";
 import { getFilteredData } from "../helpers/filter";
 
 const ShoppingCartPage = () => {
   const [cartsProducts, setCartsProducts] = useState([]);
 
   useEffect(() => {
-    const localData = LocalStorage.get(PRODUCTS) || defaultData;
+    const localData = LocalStorage.get(PRODUCTS) || products;
 
     updateCartsProducts(localData);
   }, []);
 
   const updateCartsProducts = (data) => {
-    const mainData = data || defaultData;
+    const mainData = data || products;
 
     const filterArguments = {
       data: mainData,

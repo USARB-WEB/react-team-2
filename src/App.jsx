@@ -6,24 +6,24 @@ import ProfilePage from "./pages/profile";
 import ProductsPage from "./pages/products";
 import ShoppingCartPage from "./pages/cart";
 import { LocalStorage, PRODUCTS } from "./helpers/localStorage";
-import jsonData from "./data/data.json";
+import products from "./database/products/list.json";
 
 const App = () => {
-  const AllProducts = LocalStorage.get(PRODUCTS);
+	const AllProducts = LocalStorage.get(PRODUCTS);
 
-  !AllProducts && LocalStorage.set(PRODUCTS, jsonData);
+	!AllProducts && LocalStorage.set(PRODUCTS, products);
 
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/contacts" element={<ContactsPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/cart" element={<ShoppingCartPage />} />
-      </Routes>
-    </>
-  );
+	return (
+		<>
+			<Routes>
+				<Route path='/' element={<HomePage />} />
+				<Route path='/contacts' element={<ContactsPage />} />
+				<Route path='/profile' element={<ProfilePage />} />
+				<Route path='/products' element={<ProductsPage />} />
+				<Route path='/cart' element={<ShoppingCartPage />} />
+			</Routes>
+		</>
+	);
 };
 
 export default App;
