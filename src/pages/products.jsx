@@ -1,56 +1,34 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { NavBar } from "../components/NavBar";
-
-const allProducts = [
-    {
-        id: 1,
-        name: "Product 1",
-        price: 12.34,
-        inCart: false
-    },
-    {
-        id: 2,
-        name: "Product 2",
-        price: 11.22,
-        inCart: false
-    },
-    {
-        id: 3,
-        name: "Product 3",
-        price: 7.55,
-        inCart: false
-    },
-    {
-        id: 4,
-        name: "Product 4",
-        price: 7.55,
-        inCart: false
-    },
-    {
-        id: 5,
-        name: "Product 5",
-        price: 7.55,
-        inCart: false
-    }
-];
+import allProducts from "../database/products/list";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function ProductsPage() {
 
-    const getFromLocalStorage = () => {
-        return JSON.parse(localStorage.getItem('products')) || [];
+    const [cartProducts, setCartProducts] = useLocalStorage('products', [])
+
+    const getCartProducts = () => {
+        if(Array.isArray(cartProducts)){
+            return cartProducts;
+        }
+
+        return [];
     }
 
-    const [products, setProducts] = useState(allProducts.map(product => {
+    const productsInCart = allProducts.map(product => {
         return {
             ...product,
-            inCart: getFromLocalStorage().find(cartProduct => cartProduct.id === product.id) ? true : false
+            inCart: getCartProducts().find(cartProduct => cartProduct.id === product.id) ? true : false
         }
-    }))
+    })
+
+    const [products, setProducts] = useState(productsInCart)
 
     const changeCartState = (productId, newState) => {
         setProducts(
             products.map(product => {
+                
                 if (product.id === productId) {
 
                     return {
@@ -71,18 +49,9 @@ export default function ProductsPage() {
         changeCartState(productId, false);
     }
 
-    
-
-    const saveToLocalStorage = () => {
-        localStorage.setItem('products', JSON.stringify(products.filter(product => product.inCart)))
-    }
-
-    
     useEffect(() => {
-        saveToLocalStorage();
+        setCartProducts(products.filter(product => product.inCart))
     }, [products])
-
-
 
     return (
         <>
