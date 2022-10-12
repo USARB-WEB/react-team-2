@@ -1,12 +1,31 @@
-nav{
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+nav {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
 }
 
-nav a{
-  display: block;
-  background: lightblue;
-  border: 1px solid blue;
-  padding: 1em;
-  text-align: center;
+nav a {
+	display: block;
+	background: lightblue;
+	border: 1px solid blue;
+	padding: 1em;
+	text-align: center;
+}
+
+button {
+	margin: 0.5rem 0 0 1rem;
+	padding: 10px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+ul > li > span {
+  border-radius: 4px;
+	border: 1px solid #333;
+	background-color: aliceblue;
+	padding: 10px;
 }

@@ -1,11 +1,9 @@
-import { NavBar } from "../components/NavBar";
+const ContactsPage = () => {
+  return (
+    <>
+      <div>This is contacts page</div>
+    </>
+  );
+};
 
-export default function ContactsPage(){
-    return (
-        <>
-            <NavBar/>
-            <div>This is contacts page</div>
-        </>
-        
-    )
-}
+export default ContactsPage;

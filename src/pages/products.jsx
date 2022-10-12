@@ -1,107 +1,40 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { NavBar } from "../components/NavBar";
+import { useEffect, useState } from "react";
+import ListItems from "../components/list/ListItems";
+import { LocalStorage, PRODUCTS } from "../helpers/localStorage";
+import defaultData from "../data/data.json";
+import { updateAndSaveCart } from "../helpers/cart";
 
-const allProducts = [
-    {
-        id: 1,
-        name: "Product 1",
-        price: 12.34,
-        inCart: false
-    },
-    {
-        id: 2,
-        name: "Product 2",
-        price: 11.22,
-        inCart: false
-    },
-    {
-        id: 3,
-        name: "Product 3",
-        price: 7.55,
-        inCart: false
-    },
-    {
-        id: 4,
-        name: "Product 4",
-        price: 7.55,
-        inCart: false
-    },
-    {
-        id: 5,
-        name: "Product 5",
-        price: 7.55,
-        inCart: false
-    }
-];
+const ProductsPage = () => {
+  const [products, setProducts] = useState([]);
 
-export default function ProductsPage() {
+  useEffect(() => {
+    const localData = LocalStorage.get(PRODUCTS) || defaultData;
 
-    const getFromLocalStorage = () => {
-        return JSON.parse(localStorage.getItem('products')) || [];
-    }
+    setProducts(localData);
+  }, []);
 
-    const [products, setProducts] = useState(allProducts.map(product => {
-        return {
-            ...product,
-            inCart: getFromLocalStorage().find(cartProduct => cartProduct.id === product.id) ? true : false
-        }
-    }))
+  const removeProductFromList = (id) => {
+    const newProducts = updateAndSaveCart(id, false);
+    setProducts(newProducts);
+  };
 
-    const changeCartState = (productId, newState) => {
-        setProducts(
-            products.map(product => {
-                if (product.id === productId) {
+  const addProductToCart = (id) => {
+    const newProducts = updateAndSaveCart(id, true);
+    setProducts(newProducts);
+  };
 
-                    return {
-                        ...product, inCart: newState
-                    };
-                } 
-                
-                return product;
-            })
-        )
-    }
+  return (
+    <>
+      <h2>PRODUCTS</h2>
+      {products && (
+        <ListItems
+          items={products}
+          addProduct={addProductToCart}
+          removeProduct={removeProductFromList}
+        />
+      )}
+    </>
+  );
+};
 
-    const addToCart = (productId) => {
-        changeCartState(productId, true);  
-    }
-
-    const removeFromCart = (productId) => {
-        changeCartState(productId, false);
-    }
-
-    
-
-    const saveToLocalStorage = () => {
-        localStorage.setItem('products', JSON.stringify(products.filter(product => product.inCart)))
-    }
-
-    
-    useEffect(() => {
-        saveToLocalStorage();
-    }, [products])
-
-
-
-    return (
-        <>
-            <NavBar />
-            <div>Products</div>
-            <div>
-                <ul>
-                    {
-                        products && products.map(product =>
-                            <li key={product.id}>
-                                <span>{product.name}</span> | 
-                                <strong>{product.price}</strong> | 
-                                {!product.inCart && <button onClick={() => { addToCart(product.id) }}>Add to cart</button>}
-                                {product.inCart && <button onClick={() => { removeFromCart(product.id) }}>Remove from cart</button>}
-                            </li>
-                        )
-                    }
-                </ul>
-            </div>
-        </>
-    )
-}
+export default ProductsPage;

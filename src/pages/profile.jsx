@@ -1,11 +1,9 @@
-import { NavBar } from "../components/NavBar";
+const ProfilePage = () => {
+  return (
+    <>
+      <div>This is profile page</div>
+    </>
+  );
+};
 
-export default function ProfilePage(){
-    return (
-        <>
-            <NavBar/>
-            <div>This is profile page</div>
-        </>
-        
-    )
-}
+export default ProfilePage;
