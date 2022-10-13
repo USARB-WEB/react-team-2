@@ -7,12 +7,15 @@ import defaultProducts from "../database/products/list.json";
 import { getUpdatedProducts } from "../utils/updateProducts";
 
 const ShoppingCartPage = () => {
-  const [products, setProducts] = useLocalStorage(PRODUCTS, defaultProducts);
+  const [storageProducts, setStorageProducts] = useLocalStorage(
+    PRODUCTS,
+    defaultProducts
+  );
   const [cartProducts, setCartProducts] = useState([]);
 
   useEffect(() => {
-    updateCartProducts(products);
-  }, [products]);
+    updateCartProducts(storageProducts);
+  }, [storageProducts]);
 
   const updateCartProducts = (products) => {
     const mainData = products;
@@ -33,7 +36,7 @@ const ShoppingCartPage = () => {
 
     updateCartProducts(updatedProducts);
 
-    setProducts(updatedProducts);
+    setStorageProducts(updatedProducts);
   };
 
   return (

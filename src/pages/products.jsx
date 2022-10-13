@@ -5,26 +5,29 @@ import defaultProducts from "../database/products/list.json";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 const ProductsPage = () => {
-  const [products, setProducts] = useLocalStorage(PRODUCTS, defaultProducts);
+  const [storageProducts, setStorageProducts] = useLocalStorage(
+    PRODUCTS,
+    defaultProducts
+  );
 
   const removeProductFromList = (id) => {
     const newProducts = getUpdatedProducts(id, false);
 
-    setProducts(newProducts);
+    setStorageProducts(newProducts);
   };
 
   const addProductToCart = (id) => {
     const newProducts = getUpdatedProducts(id, true);
 
-    setProducts(newProducts);
+    setStorageProducts(newProducts);
   };
 
   return (
     <>
       <h2>PRODUCTS</h2>
-      {products && (
+      {storageProducts && (
         <ListItems
-          items={products}
+          items={storageProducts}
           addProduct={addProductToCart}
           removeProduct={removeProductFromList}
         />
