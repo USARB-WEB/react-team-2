@@ -1,4 +1,4 @@
-import ListItems from "../components/list/ListItems";
+import ListItems from "../components/cartList/ListItems";
 import { PRODUCTS } from "../utils/localStorage";
 import { getUpdatedProducts } from "../utils/updateProducts";
 import defaultProducts from "../database/products/list.json";
