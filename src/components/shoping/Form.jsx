@@ -17,7 +17,6 @@ const Form = () => {
     console.log(fields);
     reset();
   }
-
   return (
     <>
       <div>Shopping form</div>
