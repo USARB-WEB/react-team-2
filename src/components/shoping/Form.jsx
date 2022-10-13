@@ -20,7 +20,7 @@ const Form = () => {
 
   return (
     <>
-      <div>Shoping form</div>
+      <div>Shopping form</div>
       <form
         onSubmit={handleSubmit(onSubmit)}
       >
