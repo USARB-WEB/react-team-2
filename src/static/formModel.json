@@ -1,0 +1,63 @@
+[
+  {
+    "type": "text",
+    "name": "firstName",
+    "label": "First name",
+    "placeholder": "First name",
+    "register": {
+      "required": "First name is required",
+      "maxLength": {
+        "value": 20,
+        "message": "Max length 20"
+      }
+    }
+  },
+  {
+    "type": "text",
+    "name": "lastName",
+    "label": "Last name",
+    "placeholder": "Last name",
+    "register": {
+      "required": "Last name is required",
+      "maxLength": {
+        "value": 20,
+        "message": "Max length 20"
+      }
+    }
+  },
+  {
+    "type": "number",
+    "name": "age",
+    "label": "Age",
+    "placeholder": "Age",
+    "register": {
+      "required": "Age is required",
+      "min": {
+        "value": 18,
+        "message": "Min age is 18"
+      }
+    }
+  },
+  {
+    "type": "select",
+    "name": "gender",
+    "label": "Gender",
+    "options": [
+      {
+        "value": 1,
+        "text": "Male"
+      },
+      {
+        "value": 2,
+        "text": "Female"
+      },
+      {
+        "value": 3,
+        "text": "Other"
+      }
+    ],
+    "register": {
+      "required": "Please, choose your gender"
+    }
+  }
+]

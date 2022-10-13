@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavBar } from "../components/NavBar";
+import Form from '../components/shoping/Form';
 import allProducts from "../database/products/list";
 
 export default function ShoppingCartPage() {
@@ -42,6 +43,8 @@ export default function ShoppingCartPage() {
                 )
             }
             <hr />
+          <Form/>
+          <hr/>
             <pre>
                 { JSON.stringify(products, undefined, 2) }
             </pre>
