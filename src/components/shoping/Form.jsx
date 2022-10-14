@@ -10,7 +10,11 @@ const Form = () => {
     formState: { errors }
   } = useForm({
     mode: "onSubmit",
-    reValidateMode: "onChange"
+    reValidateMode: "onChange",
+    defaultValues: {
+      firstName: 'Corina',
+      fruits: '2'
+    }
   });
 
   const onSubmit = (fields) => {
